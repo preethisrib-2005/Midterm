@@ -1,0 +1,11 @@
+Local Test: Run mvn spring-boot:run and check localhost:8080/api/notes.
+
+Docker Build: Run docker build -t notes-app ..
+
+Docker Run: Run docker run -p 8080:8080 notes-app.
+
+K8s Deploy: * Ensure kubectl is connected to a cluster (like Minikube).
+
+Run kubectl apply -f k8s/deployment.yaml.
+
+CI/CD: Push your code to GitHub. Add your DockerHub credentials to GitHub Secrets. The pipeline will automatically test, build, and push the image.
