@@ -1,57 +1,32 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: java-test-app-deployment
-  labels:
-    app: java-test-app
+  name: notes-deployment
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: java-test-app
+      app: notes
   template:
     metadata:
       labels:
-        app: java-test-app
+        app: notes
     spec:
       containers:
-        - name: java-test-app
-          image: balaganesh81/java-test-app:latest
-          imagePullPolicy: Always
-          ports:
-            - containerPort: 8080
-
-          resources:
-            requests:
-              memory: "256Mi"
-              cpu: "250m"
-            limits:
-              memory: "512Mi"
-              cpu: "500m"
-
-          livenessProbe:
-            tcpSocket:
-              port: 8080
-            initialDelaySeconds: 30
-            periodSeconds: 10
-
-          readinessProbe:
-            tcpSocket:
-              port: 8080
-            initialDelaySeconds: 10
-            periodSeconds: 5
-
+      - name: notes-app
+        image: yourdockerhubuser/notes-app:latest
+        ports:
+        - containerPort: 8080
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: java-test-app-service
+  name: notes-service
 spec:
-  type: NodePort
-  selector:
-    app: java-test-app
+  type: LoadBalancer
   ports:
-    - protocol: TCP
-      port: 80
-      targetPort: 8080
-      nodePort: 30007
+  - port: 80
+    targetPort: 8080
+  selector:
+    app: notes
+    
